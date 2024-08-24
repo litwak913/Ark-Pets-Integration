@@ -1,0 +1,20 @@
+{
+    "name": "arkpets-integration",
+    "version": "0.0.0",
+    "description": "Adds dbus calls for ArkPets,Modified from https://github.com/ickyicky/window-calls",
+    "type": "module",
+    "private": true,
+    "author": "Litwak913 <litwak913@outlook.com>",
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/litwak913/Ark-Pets-Integration",
+    "dependencies": {
+        "@girs/gjs": "4.0.0-beta.14",
+        "@girs/gnome-shell": "^46.0.2",
+        "@tsconfig/strictest": "^2.0.5",
+        "eslint": "^9.9.0",
+        "eslint-config-prettier": "^9.1.0",
+        "prettier": "^3.3.3",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^8.2.0"
+    }
+}
