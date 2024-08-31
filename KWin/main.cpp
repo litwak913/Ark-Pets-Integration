@@ -1,10 +1,8 @@
-/*
-    SPDX-FileCopyrightText: 2024 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+/** Copyright (c) 2024, Litwak913
+ * At GPL-3.0 License
+ */
 
-    SPDX-License-Identifier: LGPL-2.0-or-later
-*/
-
-#include "arkpetsintegration.h"
+#include "arkpetsintegration.hpp"
 
 #include <KPluginFactory>
 

@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: None
-# SPDX-License-Identifier: CC0-1.0
-
 cmake_minimum_required(VERSION 3.20)
 project(arkpets-integration)
 
@@ -31,7 +28,7 @@ set(arkpetsintegration_SOURCES
     arkpetsintegration.cpp
 )
 
-qt_add_dbus_adaptor(arkpetsintegration_SOURCES org.kde.KWin.ArkPets.xml arkpetsintegration.h KWin::ArkPetsIntegration)
+qt_add_dbus_adaptor(arkpetsintegration_SOURCES org.kde.KWin.ArkPets.xml arkpetsintegration.hpp KWin::ArkPetsIntegration)
 
 kcoreaddons_add_plugin(ArkPetsIntegration SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/plugins")
 
