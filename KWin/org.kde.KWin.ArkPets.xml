@@ -1,0 +1,49 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+    <interface name="org.kde.KWin.ArkPets">
+        <method name="Text">
+            <arg type="s" direction="in" name="uuid" />
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="APTitleClass" />
+            <arg type="(ss)" direction="out" name="titleclass" />
+        </method>
+        <method name="Version">
+            <arg type="u" direction="out" name="ver"/>
+        </method>
+        <method name="List">
+            <arg type="as" direction="out" name="win" />
+        </method>
+        <method name="Above">
+            <arg type="s" direction="in" name="uuid" />
+        </method>
+        <method name="Unabove">
+            <arg type="s" direction="in" name="uuid" />
+        </method>
+        <method name="Alpha">
+            <arg type="s" direction="in" name="uuid" />
+            <arg type="d" direction="in" name="alpha" />
+        </method>
+        <method name="Rect">
+            <arg type="s" direction="in" name="uuid" />
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="APRect" />
+            <arg type="(iiuu)" direction="out" name="xywh" />
+        </method>
+        <method name="Activate">
+            <arg type="s" direction="in" name="uuid" />
+        </method>
+        <method name="IsActive">
+            <arg type="s" direction="in" name="uuid" />
+            <arg type="b" direction="out" name="active" />
+        </method>
+        <method name="Visible">
+            <arg type="s" direction="in" name="winid" />
+            <arg type="b" direction="out" name="visible" />
+        </method>
+        <method name="MoveResize">
+            <arg type="s" direction="in" name="uuid" />
+            <arg type="i" direction="in" name="x" />
+            <arg type="i" direction="in" name="y" />
+            <arg type="u" direction="in" name="width" />
+            <arg type="u" direction="in" name="height" />
+        </method>
+    </interface>
+</node>
