@@ -1,19 +1,5 @@
-/* extension.js
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
+/** Copyright (c) 2024, Litwak913
+ * At GPL-3.0 License
  */
 
 import Gio from 'gi://Gio';
@@ -39,19 +25,7 @@ const MR_DBUS_IFACE = `
             <arg type="u" direction="in" name="winid" />
         </method>
         <method name="List">
-            <arg type="au" direction="out" name="win" />
-        </method>
-        <method name="Visible">
-            <arg type="u" direction="in" name="winid" />
-            <arg type="b" direction="out" name="visible" />
-        </method>
-        <method name="Text">
-            <arg type="u" direction="in" name="winid" />
-            <arg type="(ss)" direction="out" name="titleclass" />
-        </method>
-        <method name="Rect">
-            <arg type="u" direction="in" name="winid" />
-            <arg type="(iiuu)" direction="out" name="xywh" />
+            <arg type="a(iiuussbu)" direction="out" name="win" />
         </method>
         <method name="IsActive">
             <arg type="u" direction="in" name="winid" />
@@ -64,8 +38,13 @@ const MR_DBUS_IFACE = `
         <method name="Version">
             <arg type="u" direction="out" name="ver"/>
         </method>
+        <method name="Details">
+            <arg type="u" direction="in" name="winid" />
+            <arg type="(iiuussbu)" direction="out" name="info" />
+        </method>
     </interface>
 </node>`;
+// x y w h title class visible id
 
 export default class ArkPetsIntegrationExtension extends Extension {
     _dbus?: Gio.DBusExportedObject;
@@ -92,58 +71,79 @@ export default class ArkPetsIntegrationExtension extends Extension {
         return win;
     }
 
-    Version() { return 1; }
-
-    Visible(winid: number) {
-        const win = this._get_window_by_wid(winid);
-        const workspaceManager = global.workspace_manager;
-        if (win) {
-            const in_current_workspace = win.meta_window.located_on_workspace(
-                workspaceManager.get_active_workspace()
-            );
-            const minimized = win.meta_window.minimized;
-            if (!in_current_workspace || minimized) {
-                return false;
-            }
-            return true;
-        } else {
-            console.debug('Not found');
-            return false;
-        }
+    Version() {
+        return 2;
     }
 
     List() {
         const win = global.get_window_actors();
-        const winIdArr = win.map(w => w.meta_window.get_id());
-        return winIdArr;
-    }
-
-    Rect(winid: number) {
-        const win = this._get_window_by_wid(winid);
-        if (win) {
-            const rect = win.meta_window.get_frame_rect();
-            return [rect.x, rect.y, rect.width, rect.height];
-        } else {
-            console.debug('Not found');
-            return [0, 0, 0, 0];
-        }
-    }
-
-    Text(winid: number) {
-        const win = this._get_window_by_wid(winid);
-        if (win) {
-            let title = win.meta_window.get_title();
-            let wmclass = win.meta_window.get_wm_class();
+        const winArr = [];
+        const activeWorkspace = global.workspace_manager.get_active_workspace();
+        for (const w of win) {
+            const rect = w.meta_window.get_frame_rect();
+            let title = w.meta_window.get_title();
+            let wmclass = w.meta_window.get_wm_class();
+            let visible = true;
+            const in_current_workspace =
+                w.meta_window.located_on_workspace(activeWorkspace);
+            const minimized = w.meta_window.minimized;
+            if (!in_current_workspace || minimized) {
+                visible = false;
+            }
             if (!title) {
                 title = '';
             }
             if (!wmclass) {
                 wmclass = '';
             }
-            return [title, wmclass];
+            const winInfo = [
+                rect.x,
+                rect.y,
+                rect.width,
+                rect.height,
+                title,
+                wmclass,
+                visible,
+                w.meta_window.get_id(),
+            ];
+            winArr.push(winInfo);
+        }
+        return winArr;
+    }
+
+    Details(winid: number) {
+        const win = this._get_window_by_wid(winid);
+        const activeWorkspace = global.workspace_manager.get_active_workspace();
+        if (win) {
+            const rect = win.meta_window.get_frame_rect();
+            let title = win.meta_window.get_title();
+            let wmclass = win.meta_window.get_wm_class();
+            let visible = true;
+            const in_current_workspace =
+                win.meta_window.located_on_workspace(activeWorkspace);
+            const minimized = win.meta_window.minimized;
+            if (!in_current_workspace || minimized) {
+                visible = false;
+            }
+            if (!title) {
+                title = '';
+            }
+            if (!wmclass) {
+                wmclass = '';
+            }
+            return [
+                rect.x,
+                rect.y,
+                rect.width,
+                rect.height,
+                title,
+                wmclass,
+                visible,
+                win.meta_window.get_id(),
+            ];
         } else {
             console.debug('Not found');
-            return ['', ''];
+            return [0, 0, 0, 0, '', '', false, 0];
         }
     }
 
