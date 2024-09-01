@@ -1,8 +1,8 @@
-/** Copyright (c) 2024, Litwak913
- * At GPL-3.0 License
- */
+/* Copyright (c) 2024, Litwak913
+   At GPL-3.0 License
+*/
 
-#include "arkpetsintegration.hpp"
+#include "arkpetsintegration.h"
 
 #include <KPluginFactory>
 
