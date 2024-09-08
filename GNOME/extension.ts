@@ -196,7 +196,13 @@ export default class ArkPetsIntegrationExtension extends Extension {
     }
 
     IsActive(winid: number) {
-        return global.get_display().get_focus_window().get_id() === winid;
+        const win = global.get_display().get_focus_window();
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (win) {
+            return win.get_id() === winid;
+        } else {
+            return false;
+        }
     }
 
     Alpha(winid: number, alpha: number) {
