@@ -38,7 +38,7 @@ const MR_DBUS_IFACE = `
         <method name="Version">
             <arg type="u" direction="out" name="ver"/>
         </method>
-        <method name="Detail">
+        <method name="Details">
             <arg type="u" direction="in" name="winid" />
             <arg type="(iiuussbu)" direction="out" name="info" />
         </method>
@@ -111,7 +111,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
         return winArr;
     }
 
-    Detail(winid: number) {
+    Details(winid: number) {
         const win = this._get_window_by_wid(winid);
         const activeWorkspace = global.workspace_manager.get_active_workspace();
         if (win) {
