@@ -5,7 +5,7 @@
             <arg type="u" direction="out" name="ver"/>
         </method>
         <method name="List">
-            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="APDetails"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APDetailsList"/>
             <arg type="a(iiuussbs)" direction="out" name="win" />
         </method>
         <method name="Above">
@@ -18,9 +18,9 @@
             <arg type="s" direction="in" name="uuid" />
             <arg type="d" direction="in" name="alpha" />
         </method>
-        <method name="Detail">
+        <method name="Details">
             <arg type="s" direction="in" name="uuid" />
-            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="APDetail"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APDetails"/>
             <arg type="(iiuussbs)" direction="out" name="win" />
         </method>
         <method name="Activate">

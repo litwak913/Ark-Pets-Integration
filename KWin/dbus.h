@@ -6,8 +6,10 @@
 
 #include <QDBusArgument>
 #include <QString>
+namespace ArkPets
+{
 
-struct APDetail {
+struct APDetails {
     //(iiuussbs)
     int x;
     int y;
@@ -19,8 +21,9 @@ struct APDetail {
     QString id;
 };
 
-typedef QList<APDetail> APDetails;
-inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetail &details)
+typedef QList<APDetails> APDetailsList;
+
+inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetails &details)
 {
     argument.beginStructure();
     argument << details.x;
@@ -35,7 +38,7 @@ inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetail &detail
     return argument;
 }
 
-inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetail &details)
+inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetails &details)
 {
     argument.beginStructure();
     argument >> details.x;
@@ -50,5 +53,6 @@ inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetail &
     return argument;
 }
 
-Q_DECLARE_METATYPE(APDetail)
-Q_DECLARE_METATYPE(APDetails)
+}
+Q_DECLARE_METATYPE(ArkPets::APDetails)
+Q_DECLARE_METATYPE(ArkPets::APDetailsList)

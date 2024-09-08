@@ -1,5 +1,20 @@
 {
     "KPlugin": {
-        "EnabledByDefault": false
+        "Category":"Tools",
+        "EnabledByDefault": false,
+        "License": "GPL",
+        "Authors": [
+            {
+                "Email": "litwak913@outlook.com",
+                "Name": "Litwak913"
+            }
+        ],
+        "ServiceTypes": [
+            "KWin/Effect"
+        ],
+        "Description":"Add DBus methods for ArkPets,such as query and control window.",
+        "Description[zh_CN]":"为 ArkPets 提供了查询，控制窗口的 D-Bus 方法",
+        "Name":"ArkPets Integration",
+        "Name[zh_CN]":"ArkPets 桌面集成"
     }
 }
