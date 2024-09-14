@@ -19,7 +19,7 @@ sudo cp ArkPetsIntegration.so /usr/lib/qt6/plugins/kwin/effects/plugins
 请先确保您安装好以下工具：
 
 * GCC
-* extra-cmake-tools
+* extra-cmake-modules
 * kwin 及其头文件
 * cmake
 * ninja
