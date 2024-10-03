@@ -1,7 +1,7 @@
 NAME=arkpets-integration
 DOMAIN=harryh.cn
 
-.PHONY: all pack install clean
+.PHONY: all pack install clean distclean
 
 all: dist/extension.js
 
@@ -20,5 +20,8 @@ pack: dist/$(NAME)@$(DOMAIN).zip
 install: dist/$(NAME)@$(DOMAIN).zip
 	@gnome-extensions install --force ./dist/arkpets-integration@harryh.cn.zip
 
-clean:
+distclean:
 	@rm -rf dist node_modules
+
+clean:
+	@rm -rf dist
