@@ -4,6 +4,7 @@
 
 import Gio from 'gi://Gio';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import Meta from "gi://Meta";
 
 const MR_DBUS_IFACE = `
 <node>
@@ -31,12 +32,8 @@ const MR_DBUS_IFACE = `
             <arg type="u" direction="in" name="winid" />
             <arg type="b" direction="out" name="active" />
         </method>
-        <method name="Alpha">
-            <arg type="u" direction="in" name="winid" />
-            <arg type="u" direction="in" name="alpha" />
-        </method>
         <method name="Version">
-            <arg type="u" direction="out" name="ver"/>
+            <arg type="s" direction="out" name="ver"/>
         </method>
         <method name="Details">
             <arg type="u" direction="in" name="winid" />
@@ -72,7 +69,11 @@ export default class ArkPetsIntegrationExtension extends Extension {
     }
 
     Version() {
-        return 2;
+        if (global.display.get_context().get_compositor_type() === Meta.CompositorType.WAYLAND) {
+            return "2.W";
+        } else {
+            return "2.X";
+        }
     }
 
     List() {
@@ -202,15 +203,6 @@ export default class ArkPetsIntegrationExtension extends Extension {
             return win.get_id() === winid;
         } else {
             return false;
-        }
-    }
-
-    Alpha(winid: number, alpha: number) {
-        const win = this._get_window_by_wid(winid);
-        if (win) {
-            win.set_opacity(alpha);
-        } else {
-            console.debug('Not found');
         }
     }
 }
