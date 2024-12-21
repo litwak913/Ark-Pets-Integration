@@ -21,12 +21,20 @@ NSApplication* APGetApp()
     return [NSApplication sharedApplication];
 }
 
-void APSetTaskbar(const NSApplication* app, bool enable)
+void APSetDock(const NSApplication* app, BOOL enable)
 {
     if (enable) {
         [app setActivationPolicy:NSApplicationActivationPolicyRegular];
     } else {
         [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
+    }
+}
+
+void APSetTopmost(const NSWindow* win, BOOL enable) {
+    if (enable) {
+        win.level = NSFloatingWindowLevel;
+    } else {
+        win.level = NSNormalWindowLevel;
     }
 }
 

@@ -1,15 +1,15 @@
 CFLAGS = -Wall
 LDFLAGS = -shared -fPIC -lobjc -framework Foundation -framework AppKit
-LIBNAME = libgdglow
+LIBNAME = libgoldenglow
 
 .PHONY: clean
 all: $(LIBNAME).dylib
 
 %_x86.o: %.m
-	$(CC) $(CFLAGS) -c -target x86_64-apple-macos10.12 $^ -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -target x86_64-apple-macos10.12 $^ -o $@
 
 %_arm.o: %.m
-	$(CC) $(CFLAGS) -c -target arm64-apple-macos11 $^ -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -target arm64-apple-macos11 $^ -o $@
 
 $(LIBNAME)_x86.dylib: gdglow_x86.o
 	$(CC) $(LDFLAGS) -target x86_64-apple-macos10.12 $^ -o $@

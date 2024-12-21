@@ -8,7 +8,8 @@
 
 void APResize(const NSWindow* win, int x, int y, int w, int h);
 NSApplication* APGetApp();
-void APSetTaskbar(const NSApplication* app, bool enable);
+void APSetDock(const NSApplication* app, BOOL enable);
+void APSetTopmost(const NSWindow* app, BOOL enable);
 NSWindow* APGetNSWindow(const NSApplication* app, long cgid);
 
 #endif
