@@ -16,8 +16,8 @@ void APResize(const NSWindow* win, int x, int y, int w, int h)
     }
 }
 
-void APResizeAsync(const NSWindow* win, int x, int y, int w, int h) {
-    dispatch_async(dispatch_get_main_queue(), ^{
+void APResizeOnMain(const NSWindow* win, int x, int y, int w, int h) {
+    dispatch_sync(dispatch_get_main_queue(), ^{
         APResize(win, x, y, w, h);
     });
 }
