@@ -8,6 +8,7 @@
 #define GDGLOW_VER 1
 
 void APResize(const NSWindow* win, int x, int y, int w, int h);
+void APResizeAsync(const NSWindow* win, int x, int y, int w, int h);
 NSApplication* APGetApp();
 void APSetDock(const NSApplication* app, BOOL enable);
 void APSetTopmost(const NSWindow* app, BOOL enable);
