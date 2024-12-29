@@ -32,7 +32,7 @@ void APSetDock(const NSApplication* app, BOOL enable)
 
 void APSetTopmost(const NSWindow* win, BOOL enable) {
     if (enable) {
-        win.level = NSFloatingWindowLevel;
+        win.level = NSStatusWindowLevel;
     } else {
         win.level = NSNormalWindowLevel;
     }
@@ -42,3 +42,9 @@ NSWindow* APGetNSWindow(const NSApplication* app, long cgid)
 {
     return [app windowWithWindowNumber:cgid];
 }
+
+void APActive(const NSWindow* win) {
+    [win orderFrontRegardless];
+}
+
+int APVersion() { return GDGLOW_VER; }
