@@ -4,7 +4,7 @@
 
 import Gio from 'gi://Gio';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
-import Meta from "gi://Meta";
+import Meta from 'gi://Meta';
 
 const MR_DBUS_IFACE = `
 <node>
@@ -21,9 +21,11 @@ const MR_DBUS_IFACE = `
         </method>
         <method name="Above">
             <arg type="u" direction="in" name="winid" />
+            <arg type="b" direction="in" name="above" />
         </method>
-        <method name="Unabove">
+        <method name="Stick">
             <arg type="u" direction="in" name="winid" />
+            <arg type="b" direction="in" name="stick" />
         </method>
         <method name="List">
             <arg type="a(iiuussbu)" direction="out" name="win" />
@@ -69,10 +71,13 @@ export default class ArkPetsIntegrationExtension extends Extension {
     }
 
     Version() {
-        if (global.display.get_context().get_compositor_type() === Meta.CompositorType.WAYLAND) {
-            return "2.W";
+        if (
+            global.display.get_context().get_compositor_type() ===
+            Meta.CompositorType.WAYLAND
+        ) {
+            return '2.W';
         } else {
-            return "2.X";
+            return '2.X';
         }
     }
 
@@ -178,19 +183,27 @@ export default class ArkPetsIntegrationExtension extends Extension {
         }
     }
 
-    Above(winid: number) {
+    Above(winid: number, above: boolean) {
         const win = this._get_window_by_wid(winid);
         if (win) {
-            win.meta_window.make_above();
+            if (above) {
+                win.meta_window.make_above();
+            } else {
+                win.meta_window.unmake_above();
+            }
         } else {
             console.debug('Not found');
         }
     }
 
-    Unabove(winid: number) {
+    Stick(winid: number, stick: boolean) {
         const win = this._get_window_by_wid(winid);
         if (win) {
-            win.meta_window.unmake_above();
+            if (stick) {
+                win.meta_window.stick();
+            } else {
+                win.meta_window.unstick();
+            }
         } else {
             console.debug('Not found');
         }

@@ -7,7 +7,7 @@
     "author": "Litwak913 <litwak913@outlook.com>",
     "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/litwak913/Ark-Pets-Integration",
-    "dependencies": {
+    "devDependencies": {
         "@girs/gjs": "4.0.0-beta.14",
         "@girs/gnome-shell": "^46.0.2",
         "@tsconfig/strictest": "^2.0.5",
@@ -15,6 +15,10 @@
         "eslint-config-prettier": "^9.1.0",
         "prettier": "^3.3.3",
         "typescript": "^5.5.4",
-        "typescript-eslint": "^8.2.0"
+        "typescript-eslint": "^8.2.0",
+        "jiti": "^2.4.2"
+    },
+    "scripts": {
+        "lint": "eslint --flag unstable_ts_config"
     }
 }
