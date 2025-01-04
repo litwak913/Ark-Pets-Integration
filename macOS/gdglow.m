@@ -17,9 +17,13 @@ void APResize(const NSWindow* win, int x, int y, int w, int h)
 }
 
 void APResizeOnMain(const NSWindow* win, int x, int y, int w, int h) {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    if ([NSThread isMainThread]) {
         APResize(win, x, y, w, h);
-    });
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            APResize(win, x, y, w, h);
+        });
+    }
 }
 
 NSApplication* APGetApp()
