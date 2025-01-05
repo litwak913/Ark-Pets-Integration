@@ -20,10 +20,13 @@ gnome-extensions install --force arkpets-integration@harryh.cn.zip
 * [Node.js](https://nodejs.org/)
 * [pnpm](https://pnpm.io/)
 
-克隆本仓库，然后运行 `make install`。
+克隆本仓库，然后运行以下命令：
 
 ```bash
-make install # 将会安装需要的依赖，编译 TypeScript 代码，并复制文件。
+pnpm install
+pnpm build
+pnpm package
+pnpm install-ext
 ```
 
 然后注销并重新登录。

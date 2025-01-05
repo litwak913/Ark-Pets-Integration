@@ -19,6 +19,9 @@
         "jiti": "^2.4.2"
     },
     "scripts": {
-        "lint": "eslint --flag unstable_ts_config"
+        "lint": "eslint --flag unstable_ts_config",
+        "package": "cd dist && zip ./arkpets-integration@harryh.cn.zip -9r .",
+        "install-ext": "gnome-extensions install --force ./dist/arkpets-integration@harryh.cn.zip",
+        "build": "tsc && cp metadata.json ./dist"
     }
 }
