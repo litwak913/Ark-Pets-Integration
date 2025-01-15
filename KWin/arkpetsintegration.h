@@ -5,7 +5,7 @@
 #pragma once
 #include "dbus.h"
 
-#include "kwin/effect/effect.h"
+#include "kwin/plugin.h"
 
 #include <QDBusContext>
 
@@ -19,7 +19,7 @@
 namespace ArkPets
 {
 
-class ArkPetsIntegration : public KWin::Effect, protected QDBusContext
+class ArkPetsIntegration : public KWin::Plugin, protected QDBusContext
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.ArkPets")
@@ -30,7 +30,6 @@ public:
     APDetailsList List();
     void Above(const QString &uuid);
     void Unabove(const QString &uuid);
-    void Alpha(const QString &uuid, qreal alpha);
     APDetails Details(const QString &uuid);
     void Activate(const QString &uuid);
     bool IsActive(const QString &uuid);

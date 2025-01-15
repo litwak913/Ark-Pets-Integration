@@ -67,11 +67,6 @@ void ArkPetsIntegration::Unabove(const QString &uuid)
     const auto window = AP_FIND_WINDOW(uuid, ) window->setKeepAbove(false);
 }
 
-void ArkPetsIntegration::Alpha(const QString &uuid, qreal alpha)
-{
-    const auto window = AP_FIND_WINDOW(uuid, ) window->setOpacity(alpha);
-}
-
 APDetails ArkPetsIntegration::Details(const QString &uuid)
 {
     const auto window = KWin::Workspace::self()->findWindow(QUuid::fromString(uuid));
@@ -80,7 +75,6 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
         return {0, 0, 0, 0, QStringLiteral(""), QStringLiteral(""), false, QStringLiteral("")};
     }
     const auto current_desktop = KWin::VirtualDesktopManager::self()->currentDesktop()->id();
-    auto rect = window->clientGeometry();
     bool minimized = window->isMinimized();
     bool in_current_workspace = false;
     QStringList windesk = window->desktopIds();
@@ -91,10 +85,10 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
             in_current_workspace = true;
         }
     }
-    APDetails detail = {.x = qRound(rect.x()),
-                        .y = qRound(rect.y()),
-                        .w = (uint)qRound(rect.width()),
-                        .h = (uint)qRound(rect.height()),
+    APDetails detail = {.x = qRound(window->x()),
+                        .y = qRound(window->y()),
+                        .w = (uint)qRound(window->width()),
+                        .h = (uint)qRound(window->height()),
                         .title = window->caption(),
                         .wclass = window->resourceClass(),
                         .visible = (in_current_workspace && !minimized),

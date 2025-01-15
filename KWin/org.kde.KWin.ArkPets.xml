@@ -14,10 +14,6 @@
         <method name="Unabove">
             <arg type="s" direction="in" name="uuid" />
         </method>
-        <method name="Alpha">
-            <arg type="s" direction="in" name="uuid" />
-            <arg type="d" direction="in" name="alpha" />
-        </method>
         <method name="Details">
             <arg type="s" direction="in" name="uuid" />
             <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APDetails"/>

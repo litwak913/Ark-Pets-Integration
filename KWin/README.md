@@ -1,4 +1,4 @@
-# ArkPets KDE 集成特效插件
+# ArkPets KDE 集成插件
 
 此特效插件为 ArkPets 提供了一些查询，控制窗口的 D-Bus 方法。
 
@@ -22,25 +22,22 @@ sudo cp ArkPetsIntegration.so /usr/lib/qt6/plugins/kwin/effects/plugins
 * extra-cmake-modules
 * kwin 及其头文件
 * cmake
-* ninja
 
 克隆本仓库，然后运行以下命令：
 
 ```bash
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -G Ninja ..
-ninja
-sudo ninja install
+cmake -DCMAKE_BUILD_TYPE=Release -B build
+cmake --build build
+sudo cmake --install build
 ```
 
 然后注销并重新登录。
 
 # 启用
-ArkPets 启动器会在启动桌宠前自动启用特效插件。
+ArkPets 启动器会在启动桌宠前自动启用插件。
 
-您也可以在`系统设置 -> 窗口管理 -> 桌面特效`处启用，或运行以下命令来启用特效插件：
+您也可以运行以下命令来启用插件：
 
 ```bash
-qdbus --literal org.kde.KWin /Effects org.kde.kwin.Effects.loadEffect ArkPetsIntegration
+qdbus --literal org.kde.KWin /Plugins org.kde.KWin.Plugins.LoadPlugin ArkPetsIntegration
 ```

@@ -48,7 +48,7 @@ set(arkpetsintegration_SOURCES
 
 qt_add_dbus_adaptor(arkpetsintegration_SOURCES org.kde.KWin.ArkPets.xml arkpetsintegration.h ArkPets::ArkPetsIntegration)
 
-kcoreaddons_add_plugin(ArkPetsIntegration SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/effects/plugins/")
+kcoreaddons_add_plugin(ArkPetsIntegration SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/plugins")
 
 target_link_libraries(ArkPetsIntegration PRIVATE
     KWin::kwin
