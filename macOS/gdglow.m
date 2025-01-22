@@ -33,19 +33,13 @@ NSApplication* APGetApp()
 
 void APSetDock(const NSApplication* app, BOOL enable)
 {
-    if (enable) {
-        [app setActivationPolicy:NSApplicationActivationPolicyRegular];
-    } else {
-        [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
-    }
+    int policy = enable ? NSApplicationActivationPolicyRegular : NSApplicationActivationPolicyAccessory;
+    [app setActivationPolicy:policy];
 }
 
 void APSetTopmost(const NSWindow* win, BOOL enable) {
-    if (enable) {
-        win.level = NSStatusWindowLevel;
-    } else {
-        win.level = NSNormalWindowLevel;
-    }
+    int level = enable ? NSStatusWindowLevel : NSNormalWindowLevel;
+    win.level = level;
 }
 
 NSWindow* APGetNSWindow(const NSApplication* app, long cgid)
