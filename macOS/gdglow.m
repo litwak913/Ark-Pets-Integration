@@ -4,6 +4,13 @@
 
 #import "gdglow.h"
 
+#define APRunOnMain(blk)\
+    if ([NSThread isMainThread]) {\
+        blk();\
+    } else {\
+        dispatch_sync(dispatch_get_main_queue(), blk);\
+    }
+
 void APResize(const NSWindow* win, int x, int y, int w, int h)
 {
     NSScreen* scr = [win screen];
@@ -17,13 +24,7 @@ void APResize(const NSWindow* win, int x, int y, int w, int h)
 }
 
 void APResizeOnMain(const NSWindow* win, int x, int y, int w, int h) {
-    if ([NSThread isMainThread]) {
-        APResize(win, x, y, w, h);
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            APResize(win, x, y, w, h);
-        });
-    }
+    APRunOnMain(^{ APResize(win, x, y, w, h); });
 }
 
 NSApplication* APGetApp()
@@ -37,14 +38,25 @@ void APSetDock(const NSApplication* app, BOOL enable)
     [app setActivationPolicy:policy];
 }
 
+void APSetDockOnMain(const NSApplication* app, BOOL enable)
+{
+    APRunOnMain(^{ APSetDock(app, enable); })
+}
+
 void APSetTopmost(const NSWindow* win, BOOL enable) {
     int level = enable ? NSStatusWindowLevel : NSNormalWindowLevel;
     win.level = level;
 }
 
+void APSetTopmostOnMain(const NSWindow* win, BOOL enable)
+{
+    APRunOnMain(^{ APSetTopmost(win, enable); })
+}
+
 NSWindow* APGetNSWindow(const NSApplication* app, long cgid)
 {
-    return [app windowWithWindowNumber:cgid];
+    NSWindow* win = [app windowWithWindowNumber:cgid];
+    return win;
 }
 
 void APActive(const NSWindow* win) {
