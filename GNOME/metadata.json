@@ -5,9 +5,10 @@
   "shell-version": [
     "45",
     "46",
-    "47"
+    "47",
+    "48"
   ],
   "url": "https://github.com/litwak913/Ark-Pets-Integration",
   "uuid": "arkpets-integration@harryh.cn",
-  "version": 1
+  "version": 2
 }
