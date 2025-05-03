@@ -10,6 +10,7 @@ pub struct Config {
 pub struct ArkPetsConfig {
     pub args: Vec<String>,
     pub main: String,
+    pub ver: String,
 }
 #[derive(Deserialize, Debug)]
 pub struct RuntimeConfig {
