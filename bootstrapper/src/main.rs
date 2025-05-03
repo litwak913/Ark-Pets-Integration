@@ -86,8 +86,9 @@ fn launcher_main() -> Result<()> {
         open_console().with_context(|| "Failed to open debug console")?;
     }
     if config.runtime.use_user_data {
-        let user_data =
+        let mut user_data =
             dirs::data_local_dir().with_context(|| "Cannot determine user data path")?;
+        user_data.push("ArkPets");
         if !user_data.exists() {
             create_dir(&user_data).with_context(|| "Cannot create user data path")?;
         }
