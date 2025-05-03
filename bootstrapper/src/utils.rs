@@ -32,7 +32,9 @@ fn reset_signal_handler(signal: c_int) -> Result<()> {
 pub fn open_console() -> Result<()> {
     #[cfg(target_family = "windows")]
     {
-        todo!()
+        unsafe {
+            AllocConsole();
+        }
     }
     Ok(())
 }
