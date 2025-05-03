@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.96"
+cfg-if = "1.0.0"
 dirs = "6.0.0"
 jni = { version = "0.21.1", features = ["invocation"] }
 libc = "0.2.170"

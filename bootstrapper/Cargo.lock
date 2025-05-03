@@ -13,6 +13,7 @@ name = "apbs2"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cfg-if",
  "dirs",
  "jni",
  "libc",
