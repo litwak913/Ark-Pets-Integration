@@ -49,7 +49,7 @@ pub fn show_err(msg: String) {
         .unwrap_or_default()
 }
 
-fn get_jar_list(path: PathBuf) -> Result<Vec<PathBuf>> {
+pub fn get_jar_list(path: PathBuf) -> Result<Vec<PathBuf>> {
     let dirs = path
         .read_dir()
         .with_context(|| format!("Failed to read dir: {}", path.display()))?;
@@ -70,14 +70,6 @@ pub fn build_path(base: &PathBuf, segments: &[&str]) -> PathBuf {
     let mut path = base.clone();
     segments.iter().for_each(|s| path.push(s));
     path
-}
-
-pub fn collect_jars(paths: &[PathBuf]) -> Result<Vec<PathBuf>> {
-    paths
-        .iter()
-        .map(|path| get_jar_list(path.to_path_buf()))
-        .collect::<Result<Vec<_>>>()
-        .map(|v| v.into_iter().flatten().collect())
 }
 
 pub fn paths_to_strs(paths: &[PathBuf]) -> Result<Vec<&str>> {

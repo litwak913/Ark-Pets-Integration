@@ -1,5 +1,6 @@
 [arkpets]
 plugins = []
+ver = "3.7.1"
 args = ["--debug"]
 main = "cn.harryh.arkpets.BootstrapLauncher"
 
