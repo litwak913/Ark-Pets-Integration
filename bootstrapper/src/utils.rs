@@ -1,8 +1,11 @@
 use std::path::PathBuf;
 
-use anyhow::{anyhow, bail, Context, Result};
+#[cfg(target_family = "unix")]
 use libc::c_int;
-use native_dialog::{MessageDialog, MessageType};
+
+use anyhow::{anyhow, Context, Result};
+use native_dialog::{DialogBuilder, MessageLevel};
+use windows_sys::Win32::System::Console::AllocConsole;
 
 pub fn reset_signal() -> Result<()> {
     #[cfg(target_family = "unix")]
@@ -35,11 +38,12 @@ pub fn open_console() -> Result<()> {
 }
 
 pub fn show_err(msg: String) {
-    MessageDialog::new()
-        .set_type(MessageType::Error)
+    DialogBuilder::message()
+        .set_level(MessageLevel::Error)
         .set_title("Error")
         .set_text(msg.as_str())
-        .show_alert()
+        .alert()
+        .show()
         .unwrap_or_default()
 }
 
