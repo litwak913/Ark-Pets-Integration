@@ -42,7 +42,7 @@ pub fn open_console() -> Result<()> {
 pub fn show_err(msg: String) {
     DialogBuilder::message()
         .set_level(MessageLevel::Error)
-        .set_title("Error")
+        .set_title("Start Failed")
         .set_text(msg.as_str())
         .alert()
         .show()
