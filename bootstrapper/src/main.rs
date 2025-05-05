@@ -78,12 +78,13 @@ fn launcher_main() -> Result<()> {
 
     // 3. Prepare environment
     // 3.1. Platform
-    if cfg!(target_os = "linux") {
-        debug!("Reset single handlers");
-        reset_signal().with_context(|| "Cannot reset single handlers")?;
-    }
-    if cfg!(target_os = "windows") && !cfg!(debug_assertions) && config.launcher.console {
-        open_console().with_context(|| "Failed to open debug console")?;
+    cfg_if::cfg_if! {
+        if #[cfg(target_os = "linux")] {
+            debug!("Reset single handlers");
+            reset_signal().with_context(|| "Cannot reset single handlers")?;
+        } else if #[cfg(all(target_os = "windows", not(debug_assertions)))] {
+            open_console().with_context(|| "Failed to open debug console")?;
+        }
     }
     if config.runtime.use_user_data {
         let mut user_data =

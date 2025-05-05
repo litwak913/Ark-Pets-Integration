@@ -3,8 +3,10 @@ use std::path::PathBuf;
 #[cfg(target_family = "unix")]
 use libc::c_int;
 
-use anyhow::{anyhow, Context, Result};
+use anyhow::{anyhow, bail, Context, Result};
 use native_dialog::{DialogBuilder, MessageLevel};
+
+#[cfg(target_family = "windows")]
 use windows_sys::Win32::System::Console::AllocConsole;
 
 pub fn reset_signal() -> Result<()> {
