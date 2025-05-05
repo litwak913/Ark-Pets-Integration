@@ -4,6 +4,7 @@ use jni::{
     strings::JNIString,
     AttachGuard,
 };
+use std::path::PathBuf;
 
 pub fn set_thread_class_loader(env: &mut AttachGuard, main_class: &JClass) -> Result<()> {
     // We must set the context ClassLoader for JavaFX FXML in JNI.
@@ -48,4 +49,27 @@ where
         env.set_object_array_element(&j_args, i as i32, arg)?;
     }
     Ok(j_args)
+}
+
+pub fn find_libjvm(app: &PathBuf, local_jvm: bool) -> PathBuf {
+    if local_jvm {
+        [
+            java_locator::locate_jvm_dyn_library()
+                .expect("Cannot find local java")
+                .as_str(),
+            java_locator::get_jvm_dyn_lib_file_name(),
+        ]
+        .iter()
+        .collect::<PathBuf>()
+    } else {
+        cfg_if::cfg_if! {
+            if #[cfg(target_os = "windows")] {
+                app.join("runtime\\bin\\server\\jvm.dll")
+            } else if #[cfg(target_os = "linux")] {
+                app.join("runtime/bin/server/libjvm.so")
+            } else if #[cfg(target_os = "macos")] {
+                PathBuf::new() //todo
+            }
+        }
+    }
 }

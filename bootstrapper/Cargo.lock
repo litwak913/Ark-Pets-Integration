@@ -15,6 +15,7 @@ dependencies = [
  "anyhow",
  "cfg-if",
  "dirs",
+ "java-locator",
  "jni",
  "libc",
  "log",

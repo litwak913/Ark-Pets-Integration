@@ -16,6 +16,7 @@ pub struct ArkPetsConfig {
 pub struct RuntimeConfig {
     pub jvm_args: Vec<String>,
     pub use_user_data: bool,
+    pub use_local_jvm: bool,
 }
 #[derive(Deserialize, Debug)]
 pub struct LauncherConfig {
