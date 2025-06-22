@@ -56,9 +56,9 @@ APDetailsList ArkPetsIntegration::List()
     return winids;
 }
 
-void ArkPetsIntegration::Above(const QString &uuid)
+void ArkPetsIntegration::Above(const QString &uuid, bool enable)
 {
-    const auto window = AP_FIND_WINDOW(uuid, ) window->setKeepAbove(true);
+    const auto window = AP_FIND_WINDOW(uuid, ) window->setKeepAbove(enable);
 }
 
 void ArkPetsIntegration::Unabove(const QString &uuid)

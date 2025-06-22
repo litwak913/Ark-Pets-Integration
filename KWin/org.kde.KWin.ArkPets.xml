@@ -10,9 +10,7 @@
         </method>
         <method name="Above">
             <arg type="s" direction="in" name="uuid" />
-        </method>
-        <method name="Unabove">
-            <arg type="s" direction="in" name="uuid" />
+            <arg type="b" direction="in" name="enable" />
         </method>
         <method name="Details">
             <arg type="s" direction="in" name="uuid" />
