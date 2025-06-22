@@ -28,7 +28,7 @@ use std::{
 const LAUNCHER_VERSION: i32 = 1;
 
 #[cfg(debug_assertions)]
-const APP_DIR: &str = "D:\\Ark-Pets\\desktop\\build\\jpackage\\ArkPets";
+const APP_DIR: &str = "/Applications/ArkPets.app";
 #[cfg(not(debug_assertions))]
 const APP_DIR: &str = "";
 
@@ -134,6 +134,9 @@ fn init_launcher() -> Result<(PathBuf, PathBuf)> {
     };
     if cfg!(not(debug_assertions)) {
         app_dir.pop();
+    }
+    if cfg!(target_os = "macos") {
+        app_dir.pop(); // app bundle root
     }
     Ok((current_work, app_dir))
 }

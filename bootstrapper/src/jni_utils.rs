@@ -68,7 +68,7 @@ pub fn find_libjvm(app: &PathBuf, local_jvm: bool) -> PathBuf {
             } else if #[cfg(target_os = "linux")] {
                 app.join("runtime/bin/server/libjvm.so")
             } else if #[cfg(target_os = "macos")] {
-                PathBuf::new() //todo
+                app.join("runtime/Contents/Home/lib/server/libjvm.dylib")
             }
         }
     }
