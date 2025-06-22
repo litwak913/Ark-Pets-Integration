@@ -73,16 +73,10 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
         qWarning() << "[ArkPets] Window Not Found";
         return {0, 0, 0, 0, QLatin1String(""), QLatin1String(""), false, QLatin1String("")};
     }
-    const auto current_desktop = KWin::VirtualDesktopManager::self()->currentDesktop()->id();
     bool minimized = window->isMinimized();
     bool in_current_workspace = false;
-    QStringList windesk = window->desktopIds();
-    if (windesk.isEmpty()) {
-        in_current_workspace = true; // all desktop
-    } else {
-        if (windesk.contains(current_desktop)) {
-            in_current_workspace = true;
-        }
+    if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
+        in_current_workspace = true;
     }
     APDetails detail = {.x = qRound(window->x()),
                         .y = qRound(window->y()),
