@@ -7,7 +7,6 @@
 #include "kwin/virtualdesktops.h"
 #include "kwin/window.h"
 #include "kwin/workspace.h"
-#include <QDBusConnection>
 #include <QDebug>
 
 #include "arkpetsadaptor.h"
@@ -46,8 +45,8 @@ APDetailsList ArkPetsIntegration::List()
         }
         APDetails detail = {.x = qRound(window->x()),
                             .y = qRound(window->y()),
-                            .w = (uint)qRound(window->width()),
-                            .h = (uint)qRound(window->height()),
+                            .w = static_cast<uint>(qRound(window->width())),
+                            .h = static_cast<uint>(qRound(window->height())),
                             .title = window->caption(),
                             .wclass = window->resourceClass(),
                             .visible = (in_current_workspace && !minimized),
@@ -72,7 +71,7 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
     const auto window = KWin::Workspace::self()->findWindow(QUuid::fromString(uuid));
     if (!window || !window->isClient()) {
         qWarning() << "[ArkPets] Window Not Found";
-        return {0, 0, 0, 0, QStringLiteral(""), QStringLiteral(""), false, QStringLiteral("")};
+        return {0, 0, 0, 0, QLatin1String(""), QLatin1String(""), false, QLatin1String("")};
     }
     const auto current_desktop = KWin::VirtualDesktopManager::self()->currentDesktop()->id();
     bool minimized = window->isMinimized();
@@ -87,8 +86,8 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
     }
     APDetails detail = {.x = qRound(window->x()),
                         .y = qRound(window->y()),
-                        .w = (uint)qRound(window->width()),
-                        .h = (uint)qRound(window->height()),
+                        .w = static_cast<uint>(qRound(window->width())),
+                        .h = static_cast<uint>(qRound(window->height())),
                         .title = window->caption(),
                         .wclass = window->resourceClass(),
                         .visible = (in_current_workspace && !minimized),
