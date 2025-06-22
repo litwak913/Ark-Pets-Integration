@@ -31,5 +31,9 @@
             <arg type="u" direction="in" name="width" />
             <arg type="u" direction="in" name="height" />
         </method>
+        <method name="Stick">
+            <arg type="s" direction="in" name="uuid" />
+            <arg type="b" direction="in" name="enable" />
+        </method>
     </interface>
 </node>
