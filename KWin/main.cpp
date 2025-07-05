@@ -1,4 +1,4 @@
-/* Copyright (c) 2024, Litwak913
+/* Copyright (c) 2024-2025, Litwak913
    At GPL-3.0 License
 */
 

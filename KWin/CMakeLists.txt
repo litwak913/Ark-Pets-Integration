@@ -43,12 +43,22 @@ find_package(KWin REQUIRED COMPONENTS
 
 set(arkpetsintegration_SOURCES
     main.cpp
-    arkpetsintegration.cpp
+    plugin.cpp
+    info.cpp
+    action.cpp
 )
 
 qt_add_dbus_adaptor(arkpetsintegration_SOURCES org.kde.KWin.ArkPets.xml arkpetsintegration.h ArkPets::ArkPetsIntegration)
 
 kcoreaddons_add_plugin(ArkPetsIntegration SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/plugins")
+
+add_custom_target(enable
+    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "LoadPlugin" "ArkPetsIntegration"
+)
+
+add_custom_target(disable
+    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "UnloadPlugin" "ArkPetsIntegration"
+)
 
 target_link_libraries(ArkPetsIntegration PRIVATE
     KWin::kwin
