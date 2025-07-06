@@ -35,5 +35,9 @@
             <arg type="s" direction="in" name="uuid" />
             <arg type="b" direction="in" name="enable" />
         </method>
+        <method name="Mouse">
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APMousePos" />
+            <arg type="(ii)" direction="out" name="pos"/>
+        </method>
     </interface>
 </node>

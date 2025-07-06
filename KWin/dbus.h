@@ -21,6 +21,11 @@ struct APDetails {
     QString id;
 };
 
+struct APMousePos {
+    int x;
+    int y;
+};
+
 typedef QList<APDetails> APDetailsList;
 
 inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetails &details)
@@ -53,6 +58,25 @@ inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetails 
     return argument;
 }
 
+inline const QDBusArgument &operator<<(QDBusArgument &argument, const APMousePos &pos)
+{
+    argument.beginStructure();
+    argument << pos.x;
+    argument << pos.y;
+    argument.endStructure();
+    return argument;
+}
+
+inline const QDBusArgument &operator>>(const QDBusArgument &argument, APMousePos &pos)
+{
+    argument.beginStructure();
+    argument >> pos.x;
+    argument >> pos.y;
+    argument.endStructure();
+    return argument;
+}
+
 }
 Q_DECLARE_METATYPE(ArkPets::APDetails)
 Q_DECLARE_METATYPE(ArkPets::APDetailsList)
+Q_DECLARE_METATYPE(ArkPets::APMousePos)

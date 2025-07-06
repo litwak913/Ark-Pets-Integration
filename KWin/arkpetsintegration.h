@@ -34,6 +34,7 @@ public:
     void Activate(const QString &uuid);
     bool IsActive(const QString &uuid);
     void MoveResize(const QString &uuid, int x, int y, uint w, uint h);
+    APMousePos Mouse();
 };
 
 } // namespace ArkPets

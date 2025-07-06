@@ -4,9 +4,10 @@
 
 #include "arkpetsintegration.h"
 
+#include "kwin/cursor.h"
 #include "kwin/virtualdesktops.h"
-#include "kwin/workspace.h"
 #include "kwin/window.h"
+#include "kwin/workspace.h"
 
 namespace ArkPets
 {
@@ -62,4 +63,10 @@ APDetailsList ArkPetsIntegration::List()
     return winids;
 }
 
-}  // namespace ArkPets
+APMousePos ArkPetsIntegration::Mouse()
+{
+    const auto point = KWin::Cursors::self()->mouse()->pos().toPoint();
+    return {.x = point.x(), .y = point.y()};
+}
+
+} // namespace ArkPets
