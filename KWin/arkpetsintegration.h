@@ -28,8 +28,8 @@ public:
     ~ArkPetsIntegration();
     uint Version();
     APDetailsList List();
-    void Above(const QString &uuid,bool enable);
-    void Stick(const QString &uuid,bool enable);
+    void Above(const QString &uuid, bool enable);
+    void Stick(const QString &uuid, bool enable);
     APDetails Details(const QString &uuid);
     void Activate(const QString &uuid);
     bool IsActive(const QString &uuid);
