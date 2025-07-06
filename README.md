@@ -6,5 +6,3 @@ ArkPets 的桌面集成，为 ArkPets 提供了查询，控制窗口之类的接
 
 * GNOME 集成扩展
 * KWin 集成插件
-* Rust Bootstrapper
-* macOS Native（已弃用）
