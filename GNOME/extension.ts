@@ -41,6 +41,9 @@ const MR_DBUS_IFACE = `
             <arg type="u" direction="in" name="winid" />
             <arg type="(iiuussbu)" direction="out" name="info" />
         </method>
+        <method name="Mouse">
+            <arg type="(ii)" direction="out" name="pos" />
+        </method>
     </interface>
 </node>`;
 // x y w h title class visible id
@@ -217,5 +220,10 @@ export default class ArkPetsIntegrationExtension extends Extension {
         } else {
             return false;
         }
+    }
+
+    Mouse() {
+        const [mx, my] = global.get_pointer();
+        return [mx, my];
     }
 }
