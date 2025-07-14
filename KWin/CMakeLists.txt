@@ -3,6 +3,7 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(arkpets-integration)
+set(ARKPETS_INTEGRATION_VER 2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -50,17 +51,17 @@ set(arkpetsintegration_SOURCES
 
 qt_add_dbus_adaptor(arkpetsintegration_SOURCES org.kde.KWin.ArkPets.xml arkpetsintegration.h ArkPets::ArkPetsIntegration)
 
-kcoreaddons_add_plugin(ArkPetsIntegration SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/plugins")
+kcoreaddons_add_plugin(ArkPetsIntegration${ARKPETS_INTEGRATION_VER} SOURCES ${arkpetsintegration_SOURCES} INSTALL_NAMESPACE "kwin/plugins")
 
 add_custom_target(enable
-    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "LoadPlugin" "ArkPetsIntegration"
+    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "LoadPlugin" "ArkPetsIntegration${ARKPETS_INTEGRATION_VER}"
 )
 
 add_custom_target(disable
-    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "UnloadPlugin" "ArkPetsIntegration"
+    COMMAND "qdbus6" "org.kde.KWin" "/Plugins" "UnloadPlugin" "ArkPetsIntegration${ARKPETS_INTEGRATION_VER}"
 )
 
-target_link_libraries(ArkPetsIntegration PRIVATE
+target_link_libraries(ArkPetsIntegration${ARKPETS_INTEGRATION_VER} PRIVATE
     KWin::kwin
 )
 
