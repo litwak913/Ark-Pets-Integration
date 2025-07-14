@@ -7,6 +7,7 @@
 #include "kwin/workspace.h"
 #include "kwin/window.h"
 
+using namespace KWin;
 namespace ArkPets {
 
 void ArkPetsIntegration::Above(const QString &uuid, bool enable)
@@ -24,13 +25,13 @@ void ArkPetsIntegration::Stick(const QString &uuid, bool enable)
 
 bool ArkPetsIntegration::IsActive(const QString &uuid)
 {
-    const auto window = AP_FIND_WINDOW(uuid, false) const auto active = KWin::Workspace::self()->activeWindow();
+    const auto window = AP_FIND_WINDOW(uuid, false) const auto active = Workspace::self()->activeWindow();
     return window->internalId() == active->internalId();
 }
 
 void ArkPetsIntegration::Activate(const QString &uuid)
 {
-    const auto window = AP_FIND_WINDOW(uuid, ) KWin::Workspace::self()->activateWindow(window);
+    const auto window = AP_FIND_WINDOW(uuid, ) Workspace::self()->activateWindow(window);
 }
 
 void ArkPetsIntegration::MoveResize(const QString &uuid, int x, int y, uint w, uint h)

@@ -9,12 +9,13 @@
 #include "kwin/window.h"
 #include "kwin/workspace.h"
 
+using namespace KWin;
 namespace ArkPets
 {
 
 APDetails ArkPetsIntegration::Details(const QString &uuid)
 {
-    const auto window = KWin::Workspace::self()->findWindow(QUuid::fromString(uuid));
+    const auto window = Workspace::self()->findWindow(QUuid::fromString(uuid));
     if (!window || !window->isClient()) {
         qWarning() << "[ArkPets] Window Not Found";
         return {0, 0, 0, 0, QLatin1String(""), QLatin1String(""), false, QLatin1String("")};
@@ -38,8 +39,8 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
 APDetailsList ArkPetsIntegration::List()
 {
     APDetailsList winids;
-    const auto current_desktop = KWin::VirtualDesktopManager::self()->currentDesktop()->id();
-    for (const KWin::Window *window : KWin::Workspace::self()->stackingOrder()) {
+    const auto current_desktop = VirtualDesktopManager::self()->currentDesktop()->id();
+    for (const Window *window : Workspace::self()->stackingOrder()) {
         bool minimized = window->isMinimized();
         bool in_current_workspace = false;
         QStringList windesk = window->desktopIds();
@@ -65,7 +66,7 @@ APDetailsList ArkPetsIntegration::List()
 
 APMousePos ArkPetsIntegration::Mouse()
 {
-    const auto point = KWin::Cursors::self()->mouse()->pos().toPoint();
+    const auto point = Cursors::self()->mouse()->pos().toPoint();
     return {.x = point.x(), .y = point.y()};
 }
 
