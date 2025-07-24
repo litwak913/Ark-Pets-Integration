@@ -5,7 +5,7 @@
             <arg type="u" direction="out" name="ver"/>
         </method>
         <method name="List">
-            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APDetailsList"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::DetailsList"/>
             <arg type="a(iiuussbs)" direction="out" name="win" />
         </method>
         <method name="Above">
@@ -14,7 +14,7 @@
         </method>
         <method name="Details">
             <arg type="s" direction="in" name="uuid" />
-            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APDetails"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::Details"/>
             <arg type="(iiuussbs)" direction="out" name="win" />
         </method>
         <method name="Activate">
@@ -36,7 +36,7 @@
             <arg type="b" direction="in" name="enable" />
         </method>
         <method name="Mouse">
-            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::APMousePos" />
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ArkPets::MousePos" />
             <arg type="(ii)" direction="out" name="pos"/>
         </method>
     </interface>

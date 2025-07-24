@@ -27,14 +27,14 @@ public:
     explicit ArkPetsIntegration();
     ~ArkPetsIntegration();
     uint Version();
-    APDetailsList List();
+    DetailsList List();
     void Above(const QString &uuid, bool enable);
     void Stick(const QString &uuid, bool enable);
-    APDetails Details(const QString &uuid);
+    Details Details(const QString &uuid);
     void Activate(const QString &uuid);
     bool IsActive(const QString &uuid);
     void MoveResize(const QString &uuid, int x, int y, uint w, uint h);
-    APMousePos Mouse();
+    MousePos Mouse();
 };
 
 } // namespace ArkPets

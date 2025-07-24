@@ -9,7 +9,7 @@
 namespace ArkPets
 {
 
-struct APDetails {
+struct Details {
     //(iiuussbs)
     int x;
     int y;
@@ -21,14 +21,14 @@ struct APDetails {
     QString id;
 };
 
-struct APMousePos {
+struct MousePos {
     int x;
     int y;
 };
 
-typedef QList<APDetails> APDetailsList;
+typedef QList<Details> DetailsList;
 
-inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetails &details)
+inline QDBusArgument &operator<<(QDBusArgument &argument, const Details &details)
 {
     argument.beginStructure();
     argument << details.x;
@@ -43,7 +43,7 @@ inline QDBusArgument &operator<<(QDBusArgument &argument, const APDetails &detai
     return argument;
 }
 
-inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetails &details)
+inline const QDBusArgument &operator>>(const QDBusArgument &argument, Details &details)
 {
     argument.beginStructure();
     argument >> details.x;
@@ -58,7 +58,7 @@ inline const QDBusArgument &operator>>(const QDBusArgument &argument, APDetails 
     return argument;
 }
 
-inline const QDBusArgument &operator<<(QDBusArgument &argument, const APMousePos &pos)
+inline const QDBusArgument &operator<<(QDBusArgument &argument, const MousePos &pos)
 {
     argument.beginStructure();
     argument << pos.x;
@@ -67,7 +67,7 @@ inline const QDBusArgument &operator<<(QDBusArgument &argument, const APMousePos
     return argument;
 }
 
-inline const QDBusArgument &operator>>(const QDBusArgument &argument, APMousePos &pos)
+inline const QDBusArgument &operator>>(const QDBusArgument &argument, MousePos &pos)
 {
     argument.beginStructure();
     argument >> pos.x;
@@ -77,6 +77,6 @@ inline const QDBusArgument &operator>>(const QDBusArgument &argument, APMousePos
 }
 
 }
-Q_DECLARE_METATYPE(ArkPets::APDetails)
-Q_DECLARE_METATYPE(ArkPets::APDetailsList)
-Q_DECLARE_METATYPE(ArkPets::APMousePos)
+Q_DECLARE_METATYPE(ArkPets::Details)
+Q_DECLARE_METATYPE(ArkPets::DetailsList)
+Q_DECLARE_METATYPE(ArkPets::MousePos)

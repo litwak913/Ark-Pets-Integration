@@ -13,9 +13,9 @@ namespace ArkPets
 ArkPetsIntegration::ArkPetsIntegration()
 {
     new ArkPetsAdaptor(this);
-    qDBusRegisterMetaType<APDetails>();
-    qDBusRegisterMetaType<APDetailsList>();
-    qDBusRegisterMetaType<APMousePos>();
+    qDBusRegisterMetaType<struct Details>();
+    qDBusRegisterMetaType<DetailsList>();
+    qDBusRegisterMetaType<MousePos>();
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/ArkPets"), this);
     QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWin"));
     qInfo() << "[ArkPets] Loaded arkpets integration plugin";

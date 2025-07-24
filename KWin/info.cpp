@@ -13,7 +13,7 @@ using namespace KWin;
 namespace ArkPets
 {
 
-APDetails ArkPetsIntegration::Details(const QString &uuid)
+Details ArkPetsIntegration::Details(const QString &uuid)
 {
     const auto window = Workspace::self()->findWindow(QUuid::fromString(uuid));
     if (!window || !window->isClient()) {
@@ -25,20 +25,20 @@ APDetails ArkPetsIntegration::Details(const QString &uuid)
     if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
         in_current_workspace = true;
     }
-    APDetails detail = {.x = qRound(window->x()),
-                        .y = qRound(window->y()),
-                        .w = static_cast<uint>(qRound(window->width())),
-                        .h = static_cast<uint>(qRound(window->height())),
-                        .title = window->caption(),
-                        .wclass = window->resourceClass(),
-                        .visible = (in_current_workspace && !minimized),
-                        .id = window->internalId().toString(QUuid::WithoutBraces)};
+    struct Details detail = {.x = qRound(window->x()),
+                             .y = qRound(window->y()),
+                             .w = static_cast<uint>(qRound(window->width())),
+                             .h = static_cast<uint>(qRound(window->height())),
+                             .title = window->caption(),
+                             .wclass = window->resourceClass(),
+                             .visible = (in_current_workspace && !minimized),
+                             .id = window->internalId().toString(QUuid::WithoutBraces)};
     return detail;
 }
 
-APDetailsList ArkPetsIntegration::List()
+DetailsList ArkPetsIntegration::List()
 {
-    APDetailsList winids;
+    DetailsList winids;
     const auto current_desktop = VirtualDesktopManager::self()->currentDesktop()->id();
     for (const Window *window : Workspace::self()->stackingOrder()) {
         bool minimized = window->isMinimized();
@@ -51,20 +51,20 @@ APDetailsList ArkPetsIntegration::List()
                 in_current_workspace = true;
             }
         }
-        APDetails detail = {.x = qRound(window->x()),
-                            .y = qRound(window->y()),
-                            .w = static_cast<uint>(qRound(window->width())),
-                            .h = static_cast<uint>(qRound(window->height())),
-                            .title = window->caption(),
-                            .wclass = window->resourceClass(),
-                            .visible = (in_current_workspace && !minimized),
-                            .id = window->internalId().toString(QUuid::WithoutBraces)};
+        struct Details detail = {.x = qRound(window->x()),
+                                 .y = qRound(window->y()),
+                                 .w = static_cast<uint>(qRound(window->width())),
+                                 .h = static_cast<uint>(qRound(window->height())),
+                                 .title = window->caption(),
+                                 .wclass = window->resourceClass(),
+                                 .visible = (in_current_workspace && !minimized),
+                                 .id = window->internalId().toString(QUuid::WithoutBraces)};
         winids << detail;
     }
     return winids;
 }
 
-APMousePos ArkPetsIntegration::Mouse()
+MousePos ArkPetsIntegration::Mouse()
 {
     const auto point = Cursors::self()->mouse()->pos().toPoint();
     return {.x = point.x(), .y = point.y()};

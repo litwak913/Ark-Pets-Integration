@@ -4,11 +4,12 @@
 
 #include "arkpetsintegration.h"
 
-#include "kwin/workspace.h"
 #include "kwin/window.h"
+#include "kwin/workspace.h"
 
 using namespace KWin;
-namespace ArkPets {
+namespace ArkPets
+{
 
 void ArkPetsIntegration::Above(const QString &uuid, bool enable)
 {
@@ -40,4 +41,4 @@ void ArkPetsIntegration::MoveResize(const QString &uuid, int x, int y, uint w, u
     window->moveResize(rect);
 }
 
-}  // namespace ArkPets
+} // namespace ArkPets
