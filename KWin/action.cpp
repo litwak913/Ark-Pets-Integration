@@ -4,7 +4,6 @@
 
 #include "arkpetsintegration.h"
 
-#include "kwin/outline.h"
 #include "kwin/window.h"
 #include "kwin/workspace.h"
 
@@ -49,9 +48,21 @@ void ArkPetsIntegration::TestStrutOutline(const QString &uuid)
         qWarning() << "Window no strut";
         return;
     }
-    for (const StrutRect &sr : window->strutRects()) {
+    if (const StrutRect sr = window->strutRect(StrutAreaTop); sr.isValid()) {
+        qWarning() << "S Top";
         qWarning() << sr;
-        Workspace::self()->outline()->show(sr);
+    }
+    if (const StrutRect sr = window->strutRect(StrutAreaBottom); sr.isValid()) {
+        qWarning() << "S Bottom";
+        qWarning() << sr;
+    }
+    if (const StrutRect sr = window->strutRect(StrutAreaLeft); sr.isValid()) {
+        qWarning() << "S Left";
+        qWarning() << sr;
+    }
+    if (const StrutRect sr = window->strutRect(StrutAreaRight); sr.isValid()) {
+        qWarning() << "S Right";
+        qWarning() << sr;
     }
 }
 } // namespace ArkPets

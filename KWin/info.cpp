@@ -25,15 +25,10 @@ Details ArkPetsIntegration::Details(const QString &uuid)
     if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
         in_current_workspace = true;
     }
-    QRect rect;
-    rect = window->strutRect(KWin::StrutAreaTop); // first check strut rect
-    if (rect.isNull()) {
-        rect = QRect(qRound(window->x()), qRound(window->y()), qRound(window->width()), qRound(window->height()));
-    }
-    struct Details detail = {.x = rect.x(),
-                             .y = rect.y(),
-                             .w = static_cast<uint>(rect.width()),
-                             .h = static_cast<uint>(rect.height()),
+    struct Details detail = {.x = qRound(window->x()),
+                             .y = qRound(window->y()),
+                             .w = static_cast<uint>(qRound(window->width())),
+                             .h = static_cast<uint>(qRound(window->height())),
                              .title = window->caption(),
                              .wclass = window->resourceClass(),
                              .visible = (in_current_workspace && !minimized),
@@ -51,20 +46,32 @@ DetailsList ArkPetsIntegration::List()
         if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
             in_current_workspace = true;
         }
-        QRect rect;
-        rect = window->strutRect(KWin::StrutAreaTop); // first check strut rect
-        if (rect.isNull()) {
-            rect = QRect(qRound(window->x()), qRound(window->y()), qRound(window->width()), qRound(window->height()));
-        }
-        struct Details detail = {.x = rect.x(),
-                                 .y = rect.y(),
-                                 .w = static_cast<uint>(rect.width()),
-                                 .h = static_cast<uint>(rect.height()),
+        struct Details detail = {.x = 0,
+                                 .y = 0,
+                                 .w = 0,
+                                 .h = 0,
                                  .title = window->caption(),
                                  .wclass = window->resourceClass(),
                                  .visible = (in_current_workspace && !minimized),
                                  .id = window->internalId().toString(QUuid::WithoutBraces)};
-        winids << detail;
+        auto struts = window->strutRects();
+        if (struts.empty()) {
+            detail.x = window->x();
+            detail.y = window->y();
+            detail.w = static_cast<uint>(window->width());
+            detail.h = static_cast<uint>(window->height());
+            winids << detail;
+            continue;
+        } else {
+            for (const StrutRect &sr : struts) {
+                detail.x = sr.x();
+                detail.y = sr.y();
+                detail.w = static_cast<uint>(sr.width());
+                detail.h = static_cast<uint>(sr.height());
+                winids << detail;
+            }
+            continue;
+        }
     }
     return winids;
 }
