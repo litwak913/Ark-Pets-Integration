@@ -43,13 +43,8 @@ DetailsList ArkPetsIntegration::List()
     for (const Window *window : Workspace::self()->stackingOrder()) {
         bool minimized = window->isMinimized();
         bool in_current_workspace = false;
-        QStringList windesk = window->desktopIds();
-        if (windesk.isEmpty()) {
-            in_current_workspace = true; // all desktop
-        } else {
-            if (windesk.contains(current_desktop)) {
-                in_current_workspace = true;
-            }
+        if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
+            in_current_workspace = true;
         }
         struct Details detail = {.x = qRound(window->x()),
                                  .y = qRound(window->y()),
