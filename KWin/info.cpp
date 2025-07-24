@@ -46,10 +46,15 @@ DetailsList ArkPetsIntegration::List()
         if (window->isOnAllDesktops() || window->isOnCurrentDesktop()) {
             in_current_workspace = true;
         }
-        struct Details detail = {.x = qRound(window->x()),
-                                 .y = qRound(window->y()),
-                                 .w = static_cast<uint>(qRound(window->width())),
-                                 .h = static_cast<uint>(qRound(window->height())),
+        QRect rect;
+        rect = window->strutRect(KWin::StrutAreaTop); // first check strut rect
+        if (rect.isNull()) {
+            rect=QRect(qRound(window->x()),qRound(window->y()),qRound(window->width()),qRound(window->height()));
+        }
+        struct Details detail = {.x = rect.x(),
+                                 .y = rect.y(),
+                                 .w = static_cast<uint>(rect.width()),
+                                 .h = static_cast<uint>(rect.height()),
                                  .title = window->caption(),
                                  .wclass = window->resourceClass(),
                                  .visible = (in_current_workspace && !minimized),

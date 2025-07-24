@@ -44,8 +44,14 @@ void ArkPetsIntegration::MoveResize(const QString &uuid, int x, int y, uint w, u
 
 void ArkPetsIntegration::TestStrutOutline(const QString &uuid) {
     const auto window = AP_FIND_WINDOW(uuid, )
+    const auto struts = window->strutRects();
+    if(struts.empty()) {
+        qWarning() << "Window no strut";
+        return;
+    }
     for (const StrutRect& sr : window->strutRects()) {
-        Workspace::self()->outline()->show(QRect(sr));
+        qWarning() << sr;
+        Workspace::self()->outline()->show(sr);
     }
 }
 } // namespace ArkPets
