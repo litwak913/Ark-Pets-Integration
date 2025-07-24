@@ -6,6 +6,7 @@
 
 #include "kwin/window.h"
 #include "kwin/workspace.h"
+#include "kwin/outline.h"
 
 using namespace KWin;
 namespace ArkPets
@@ -41,4 +42,10 @@ void ArkPetsIntegration::MoveResize(const QString &uuid, int x, int y, uint w, u
     window->moveResize(rect);
 }
 
+void ArkPetsIntegration::TestStrutOutline(const QString &uuid) {
+    const auto window = AP_FIND_WINDOW(uuid, )
+    for (const StrutRect& sr : window->strutRects()) {
+        Workspace::self()->outline()->show(QRect(sr));
+    }
+}
 } // namespace ArkPets

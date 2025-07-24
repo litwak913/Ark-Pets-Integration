@@ -8,6 +8,7 @@
 #include "kwin/plugin.h"
 
 #include <QDBusContext>
+#include <qcontainerfwd.h>
 
 #define AP_FIND_WINDOW(winuuid, notfound)                                                                                                                      \
     KWin::Workspace::self()->findWindow(QUuid::fromString(winuuid));                                                                                           \
@@ -35,6 +36,7 @@ public:
     bool IsActive(const QString &uuid);
     void MoveResize(const QString &uuid, int x, int y, uint w, uint h);
     MousePos Mouse();
+    void TestStrutOutline(const QString &uuid);
 };
 
 } // namespace ArkPets
