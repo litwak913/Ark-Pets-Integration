@@ -31,7 +31,7 @@ public:
     DetailsList List();
     void Above(const QString &uuid, bool enable);
     void Stick(const QString &uuid, bool enable);
-    Details Details(const QString &uuid);
+    struct Details Details(const QString &uuid);
     void Activate(const QString &uuid);
     bool IsActive(const QString &uuid);
     void MoveResize(const QString &uuid, int x, int y, uint w, uint h);
