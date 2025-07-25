@@ -54,8 +54,7 @@ DetailsList ArkPetsIntegration::List()
                                  .wclass = window->resourceClass(),
                                  .visible = (in_current_workspace && !minimized),
                                  .id = window->internalId().toString(QUuid::WithoutBraces)};
-        auto struts = window->strutRects();
-        if (struts.empty()) {
+        if (window->isNormalWindow()) {
             detail.x = window->x();
             detail.y = window->y();
             detail.w = static_cast<uint>(window->width());
@@ -63,7 +62,7 @@ DetailsList ArkPetsIntegration::List()
             winids << detail;
             continue;
         } else {
-            for (const StrutRect &sr : struts) {
+            for (const StrutRect &sr : window->strutRects()) {
                 detail.x = sr.x();
                 detail.y = sr.y();
                 detail.w = static_cast<uint>(sr.width());
