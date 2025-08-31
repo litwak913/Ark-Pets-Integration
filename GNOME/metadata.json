@@ -10,5 +10,6 @@
   ],
   "url": "https://github.com/litwak913/Ark-Pets-Integration",
   "uuid": "arkpets-integration@harryh.cn",
-  "version": 2
+  "version": 2,
+  "session-modes": ["user", "unlock-dialog"]
 }
