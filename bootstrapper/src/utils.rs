@@ -1,13 +1,22 @@
 use std::path::PathBuf;
 
-#[cfg(target_family = "unix")]
-use libc::c_int;
-
-use anyhow::{anyhow, bail, Context, Result};
+use anyhow::{anyhow, Context, Result};
 use native_dialog::{DialogBuilder, MessageLevel};
 
 #[cfg(target_family = "windows")]
 use windows_sys::Win32::System::Console::AllocConsole;
+
+#[cfg(target_family = "unix")]
+use anyhow::bail;
+#[cfg(target_family = "unix")]
+use libc::c_int;
+
+#[cfg(target_os = "macos")]
+use objc2_core_foundation::{
+    kCFAllocatorDefault, kCFRunLoopDefaultMode, CFRunLoop, CFRunLoopRunResult, CFRunLoopTimer,
+};
+#[cfg(target_os = "macos")]
+use std::ptr;
 
 pub fn reset_signal() -> Result<()> {
     #[cfg(target_family = "unix")]
@@ -38,6 +47,36 @@ pub fn open_console() -> Result<()> {
             AllocConsole();
         }
     }
+    Ok(())
+}
+
+pub fn start_cocoa_thread() -> Result<()> {
+    #[cfg(target_os = "macos")]
+    {
+        unsafe {
+            let timer;
+            timer = CFRunLoopTimer::new(
+                kCFAllocatorDefault,
+                1e20,
+                0.0,
+                0,
+                0,
+                Some(|timer, void| {}),
+                *ptr::null(),
+            )
+            .with_context(|| "Failed to create timer")?;
+            let current = CFRunLoop::current().with_context(|| "Failed to get mainloop")?;
+            current.add_timer(Some(&*timer), kCFRunLoopDefaultMode);
+            loop {
+                if CFRunLoop::run_in_mode(kCFRunLoopDefaultMode, 1e20, false)
+                    == CFRunLoopRunResult::Finished
+                {
+                    break;
+                }
+            }
+        }
+    }
+
     Ok(())
 }
 

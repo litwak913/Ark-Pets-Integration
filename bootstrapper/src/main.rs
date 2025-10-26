@@ -9,18 +9,23 @@ pub mod utils;
 use crate::config::Config;
 use crate::consts::{LIBS_DIR, PLUGINS_DIR};
 use crate::jni_utils::{build_args_array, find_libjvm, set_thread_class_loader};
-use crate::utils::{build_path, get_jar_list, open_console, paths_to_strs, reset_signal, show_err};
+use crate::utils::{build_path, get_jar_list, open_console, paths_to_strs, show_err};
 
+#[cfg(target_family = "unix")]
+use crate::utils::reset_signal;
+#[cfg(target_os = "macos")]
+use crate::utils::start_cocoa_thread;
 use anyhow::{Context, Result};
 use jni::{
     objects::{JObject, JValueGen},
     InitArgsBuilder, JavaVM,
 };
 use log::{debug, error, info, warn};
+#[cfg(target_os = "macos")]
+use std::thread;
 use std::{
     env::{current_dir, current_exe, set_current_dir},
     fs::{create_dir, File},
-    io,
     io::Read,
     path::PathBuf,
 };
@@ -37,13 +42,26 @@ fn main() {
         let _ = set_current_dir(APP_DIR);
     }
     if let Ok(()) = logger::init(log::LevelFilter::Debug) {
-        if let Err(err) = launcher_main() {
-            error!("{:?}", err);
-            show_err(format!("{:?}", err));
+        cfg_if::cfg_if! {
+            if #[cfg(target_os="macos")] {
+                thread::spawn(|| {
+                    if let Err(err) = launcher_main() {
+                        error!("{:?}", err);
+                        show_err(format!("{:?}", err));
+                    }
+                });
+                start_cocoa_thread()?;
+                info!("Started Cocoa Thread")
+            } else {
+                if let Err(err) = launcher_main() {
+                    error!("{:?}", err);
+                    show_err(format!("{:?}", err));
+                }
+            }
         }
     } else {
         show_err("Failed to init logger".to_string());
-    };
+    }
 }
 
 fn launcher_main() -> Result<()> {
