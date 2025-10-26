@@ -1,0 +1,13 @@
+[arkpets]
+plugins = []
+ver = "3.7.1"
+args = ["--debug"]
+main = "cn.harryh.arkpets.BootstrapLauncher"
+
+[runtime]
+jvm_args = ["-Darkpets.appimage=1"]
+use_user_data = false
+
+[launcher]
+console = true
+log_level = 5
