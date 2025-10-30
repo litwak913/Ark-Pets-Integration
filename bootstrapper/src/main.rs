@@ -4,23 +4,28 @@ pub mod config;
 pub mod consts;
 pub mod jni_utils;
 pub mod logger;
+pub mod platform;
 pub mod utils;
 
 use crate::config::Config;
 use crate::consts::{LIBS_DIR, PLUGINS_DIR};
 use crate::jni_utils::{build_args_array, find_libjvm, set_thread_class_loader};
-use crate::utils::{build_path, get_jar_list, open_console, paths_to_strs, show_err};
+use crate::utils::{build_path, get_jar_list, paths_to_strs, show_err};
 
+#[cfg(target_os = "windows")]
+use crate::platform::open_console;
 #[cfg(target_family = "unix")]
-use crate::utils::reset_signal;
+use crate::platform::reset_signal;
 #[cfg(target_os = "macos")]
-use crate::utils::start_cocoa_thread;
+use crate::platform::start_cocoa_thread;
+
 use anyhow::{Context, Result};
 use jni::{
     objects::{JObject, JValueGen},
     InitArgsBuilder, JavaVM,
 };
 use log::{debug, error, info, warn};
+use std::process::exit;
 #[cfg(target_os = "macos")]
 use std::thread;
 use std::{
@@ -44,29 +49,37 @@ fn main() {
     if let Ok(()) = logger::init(log::LevelFilter::Debug) {
         cfg_if::cfg_if! {
             if #[cfg(target_os="macos")] {
+                info!("Starting Worker Thread");
                 thread::spawn(|| {
                     if let Err(err) = launcher_main() {
                         error!("{:?}", err);
                         show_err(format!("{:?}", err));
+                        exit(-1);
                     }
                 });
-                start_cocoa_thread()?;
-                info!("Started Cocoa Thread")
+                info!("Starting Cocoa Thread");
+                if let Err(err) = start_cocoa_thread() {
+                    error!("{:?}", err);
+                    show_err(format!("{:?}", err));
+                }
             } else {
                 if let Err(err) = launcher_main() {
                     error!("{:?}", err);
                     show_err(format!("{:?}", err));
+                    exit(-1)
                 }
             }
         }
     } else {
         show_err("Failed to init logger".to_string());
+        exit(-1)
     }
+    exit(0)
 }
 
 fn launcher_main() -> Result<()> {
     // 1. Init Launcher
-    #[cfg(debug_assertions)]
+    #[cfg(all(debug_assertions, target_os = "windows"))]
     open_console()?;
 
     info!("ArkPets Bootstrapper V{}", LAUNCHER_VERSION);
@@ -80,7 +93,7 @@ fn launcher_main() -> Result<()> {
     // 3. Prepare environment
     // 3.1. Platform
     cfg_if::cfg_if! {
-        if #[cfg(target_os = "linux")] {
+        if #[cfg(target_family = "unix")] {
             debug!("Reset single handlers");
             reset_signal().with_context(|| "Cannot reset single handlers")?;
         } else if #[cfg(all(target_os = "windows", not(debug_assertions)))] {
