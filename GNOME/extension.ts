@@ -5,6 +5,7 @@
 import Gio from 'gi://Gio';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import Meta from 'gi://Meta';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
 const MR_DBUS_IFACE = `
 <node>
@@ -169,7 +170,12 @@ export default class ArkPetsIntegrationExtension extends Extension {
                 win.meta_window.maximized_horizontally ||
                 win.meta_window.maximized_vertically
             ) {
-                win.meta_window.unmaximize(3);
+                const version = parseInt(Config.PACKAGE_VERSION.split('.')[0] ?? '0');
+                if (version >= 49) {
+                    (win.meta_window as any).unmaximize();
+                } else {
+                    win.meta_window.unmaximize(3);
+                }
             }
             win.meta_window.move_resize_frame(true, x, y, width, height);
         } else {
