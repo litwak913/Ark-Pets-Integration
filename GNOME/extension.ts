@@ -51,7 +51,11 @@ const MR_DBUS_IFACE = `
 
 export default class ArkPetsIntegrationExtension extends Extension {
     _dbus?: Gio.DBusExportedObject;
+    private _shellVersion = 0;
+
     override enable() {
+        this._shellVersion = parseInt(Config.PACKAGE_VERSION.split('.')[0] ?? '0');
+
         this._dbus = Gio.DBusExportedObject.wrapJSObject(MR_DBUS_IFACE, this);
         this._dbus.export(
             Gio.DBus.session,
@@ -170,8 +174,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
                 win.meta_window.maximized_horizontally ||
                 win.meta_window.maximized_vertically
             ) {
-                const version = parseInt(Config.PACKAGE_VERSION.split('.')[0] ?? '0');
-                if (version >= 49) {
+                if (this._shellVersion >= 49) {
                     (win.meta_window as any).unmaximize();
                 } else {
                     win.meta_window.unmaximize(3);
