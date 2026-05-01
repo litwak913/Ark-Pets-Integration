@@ -54,7 +54,9 @@ export default class ArkPetsIntegrationExtension extends Extension {
     private _shellVersion = 0;
 
     override enable() {
-        this._shellVersion = parseInt(Config.PACKAGE_VERSION.split('.')[0] ?? '0');
+        this._shellVersion = parseInt(
+            Config.PACKAGE_VERSION.split('.')[0] ?? '0'
+        );
 
         this._dbus = Gio.DBusExportedObject.wrapJSObject(MR_DBUS_IFACE, this);
         this._dbus.export(
@@ -74,11 +76,12 @@ export default class ArkPetsIntegrationExtension extends Extension {
     _get_window_by_wid(winid: number) {
         const win = global
             .get_window_actors()
-            .find(w => w.meta_window.get_id() === winid);
+            .find(w => w.meta_window?.get_id() === winid);
         return win;
     }
 
     Version() {
+        if (this._shellVersion >= 50) return '2.W';
         if (
             global.display.get_context().get_compositor_type() ===
             Meta.CompositorType.WAYLAND
@@ -94,33 +97,33 @@ export default class ArkPetsIntegrationExtension extends Extension {
         const winArr = [];
         const activeWorkspace = global.workspace_manager.get_active_workspace();
         for (const w of win) {
-            const rect = w.meta_window.get_frame_rect();
-            let title = w.meta_window.get_title();
-            let wmclass = w.meta_window.get_wm_class();
-            let visible = true;
-            const in_current_workspace =
-                w.meta_window.located_on_workspace(activeWorkspace);
-            const minimized = w.meta_window.minimized;
-            if (!in_current_workspace || minimized) {
-                visible = false;
+            if (w.meta_window) {
+                const rect = w.meta_window.get_frame_rect();
+                let title = w.meta_window.get_title();
+                let wmclass = w.meta_window.get_wm_class();
+                let visible = true;
+                const in_current_workspace =
+                    w.meta_window.located_on_workspace(activeWorkspace);
+                const minimized = w.meta_window.minimized;
+                if (!in_current_workspace || minimized) {
+                    visible = false;
+                }
+                if (!title) {
+                    title = '';
+                }
+                wmclass ??= '';
+                const winInfo = [
+                    rect.x,
+                    rect.y,
+                    rect.width,
+                    rect.height,
+                    title,
+                    wmclass,
+                    visible,
+                    w.meta_window.get_id(),
+                ];
+                winArr.push(winInfo);
             }
-            if (!title) {
-                title = '';
-            }
-            if (!wmclass) {
-                wmclass = '';
-            }
-            const winInfo = [
-                rect.x,
-                rect.y,
-                rect.width,
-                rect.height,
-                title,
-                wmclass,
-                visible,
-                w.meta_window.get_id(),
-            ];
-            winArr.push(winInfo);
         }
         return winArr;
     }
@@ -128,7 +131,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
     Details(winid: number) {
         const win = this._get_window_by_wid(winid);
         const activeWorkspace = global.workspace_manager.get_active_workspace();
-        if (win) {
+        if (win?.meta_window) {
             const rect = win.meta_window.get_frame_rect();
             let title = win.meta_window.get_title();
             let wmclass = win.meta_window.get_wm_class();
@@ -142,9 +145,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
             if (!title) {
                 title = '';
             }
-            if (!wmclass) {
-                wmclass = '';
-            }
+            wmclass ??= '';
             return [
                 rect.x,
                 rect.y,
@@ -169,12 +170,14 @@ export default class ArkPetsIntegrationExtension extends Extension {
         height: number
     ) {
         const win = this._get_window_by_wid(winid);
-        if (win) {
+        if (win?.meta_window) {
             if (
                 win.meta_window.maximized_horizontally ||
                 win.meta_window.maximized_vertically
             ) {
                 if (this._shellVersion >= 49) {
+                    // using @girs/gnome-shell 46.0.2 for minimum support GNOME version
+                    // eslint-disable-next-line
                     (win.meta_window as any).unmaximize();
                 } else {
                     win.meta_window.unmaximize(3);
@@ -188,7 +191,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
 
     Activate(winid: number) {
         const win = this._get_window_by_wid(winid);
-        if (win) {
+        if (win?.meta_window) {
             win.meta_window.activate(0);
         } else {
             console.debug('Not found');
@@ -197,7 +200,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
 
     Above(winid: number, above: boolean) {
         const win = this._get_window_by_wid(winid);
-        if (win) {
+        if (win?.meta_window) {
             if (above) {
                 win.meta_window.make_above();
             } else {
@@ -210,7 +213,7 @@ export default class ArkPetsIntegrationExtension extends Extension {
 
     Stick(winid: number, stick: boolean) {
         const win = this._get_window_by_wid(winid);
-        if (win) {
+        if (win?.meta_window) {
             if (stick) {
                 win.meta_window.stick();
             } else {
